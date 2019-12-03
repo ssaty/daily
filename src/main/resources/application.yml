@@ -1,0 +1,44 @@
+#  maxFileSize 是单个文件大小
+#  maxRequestSize是设置总上传的数据大小
+spring:
+  security:
+    user:
+      name: admin
+      password: admin
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+  datasource:
+    #    本地ip,使用本地tomcat即可
+    url: jdbc:mysql://127.0.0.1:3306/dailypaper?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=false
+    username: root
+    password: "235"
+    #    远程ip,需要使用tomcat插件
+    #    url: jdbc:mysql://192.168.200.11:3306/activity?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=false
+    #    username: root
+    #    password: "mustchangemysql"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  druid:
+    initialSize: 5                                 #初始化连接大小
+    minIdle: 5                                     #最小连接池数量
+    maxActive: 20                                  #最大连接池数量
+    maxWait: 60000                                 #获取连接时最大等待时间，单位毫秒
+    timeBetweenEvictionRunsMillis: 60000           #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    minEvictableIdleTimeMillis: 300000             #配置一个连接在池中最小生存的时间，单位是毫秒
+    validationQuery: SELECT 1 FROM DUAL            #测试连接
+    testWhileIdle: true                            #申请连接的时候检测，建议配置为true，不影响性能，并且保证安全性
+    testOnBorrow: false                            #获取连接时执行检测，建议关闭，影响性能
+    testOnReturn: false                            #归还连接时执行检测，建议关闭，影响性能
+    poolPreparedStatements: false                  #是否开启PSCache，PSCache对支持游标的数据库性能提升巨大，oracle建议开启，mysql下建议关闭
+    maxPoolPreparedStatementPerConnectionSize: 20  #开启poolPreparedStatements后生效
+    filters: stat,wall,log4j                       #配置扩展插件，常用的插件有=>stat:监控统计  log4j:日志  wall:防御sql注入
+    connectionProperties: 'druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000'  #通过connectProperties属性来打开mergeSql功能;慢SQL记录
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
